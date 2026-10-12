@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Автобус 460 · Котельники ⇄ Коломна</title>
+<meta name="description" content="Расписание автобуса 460 между м. Котельники и Коломной" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#EDF0F3" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0F141A" media="(prefers-color-scheme: dark)" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="apple-touch-icon" href="icon-180.png" />
+<link rel="icon" href="icon-192.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Автобус 460" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body, h1, h2, p, button, textarea, input { margin: 0; }
+  button, input, textarea { font-family: inherit; font-size: inherit; }
+  body { min-height: 100vh; -webkit-tap-highlight-color: transparent; }
+</style>
+</head>
+<body>
+<style>
+  :root {
+    --paper: #EDF0F3;
+    --surface: #FFFFFF;
+    --surface-2: #F5F7FA;
+    --ink: #131820;
+    --ink-2: #4A5563;
+    --ink-3: #7C8794;
+    --line: #DCE2E8;
+    --line-2: #C7D0DA;
+    --accent: #1F5FA8;
+    --tint: #E7EFF8;
+    --good: #1E7A4C;
+    --heart: #D9456E;
+    --blind-bg: #0A0D11;
+    --blind-led: #FFB020;
+    --blind-led-dim: #8A5F14;
+    --radius: 12px;
+    --shell: 30rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0F141A;
+      --surface: #171E26;
+      --surface-2: #1D2630;
+      --ink: #E8ECF0;
+      --ink-2: #A3AEBB;
+      --ink-3: #6F7C8A;
+      --line: #28323D;
+      --line-2: #364250;
+      --accent: #6BA8E8;
+      --tint: #1B2A3A;
+      --good: #5DBE8C;
+      --heart: #F07A9B;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0F141A;
+    --surface: #171E26;
+    --surface-2: #1D2630;
+    --ink: #E8ECF0;
+    --ink-2: #A3AEBB;
+    --ink-3: #6F7C8A;
+    --line: #28323D;
+    --line-2: #364250;
+    --accent: #6BA8E8;
+    --tint: #1B2A3A;
+    --good: #5DBE8C;
+    --heart: #F07A9B;
+  }
+  :root[data-theme="light"] {
+    --paper: #EDF0F3;
+    --surface: #FFFFFF;
+    --surface-2: #F5F7FA;
+    --ink: #131820;
+    --ink-2: #4A5563;
+    --ink-3: #7C8794;
+    --line: #DCE2E8;
+    --line-2: #C7D0DA;
+    --accent: #1F5FA8;
+    --tint: #E7EFF8;
+    --good: #1E7A4C;
+    --heart: #D9456E;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+  }
+  .mono {
+    font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  .shell {
+    max-width: var(--shell);
+    margin: 0 auto;
+    padding: calc(1rem + env(safe-area-inset-top)) calc(1rem + env(safe-area-inset-right)) calc(3rem + env(safe-area-inset-bottom)) calc(1rem + env(safe-area-inset-left));
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+
+  .masthead { display: flex; align-items: center; gap: 0.75rem; padding-top: 0.25rem; }
+  .route-badge {
+    background: var(--ink); color: var(--paper);
+    font-size: 1.375rem; font-weight: 600;
+    padding: 0.25rem 0.625rem; border-radius: 8px;
+    letter-spacing: 0.02em;
+  }
+  .masthead-text { display: flex; flex-direction: column; min-width: 0; }
+  .masthead-text b { font-size: 0.9375rem; font-weight: 600; }
+  .masthead-text span { font-size: 0.75rem; color: var(--ink-3); }
+
+  .segmented {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
+    background: var(--surface-2); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 4px;
+  }
+  .seg {
+    background: transparent; border: 0; border-radius: 8px;
+    padding: 0.5rem 0.25rem; font-size: 0.8125rem; font-weight: 500;
+    color: var(--ink-2); line-height: 1.25;
+  }
+  .seg[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+
+  .datebar { display: flex; align-items: stretch; gap: 0.5rem; }
+  .daynav {
+    flex: 0 0 auto; width: 2.75rem;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); font-size: 1.125rem; color: var(--ink-2);
+  }
+  .daynav:hover { border-color: var(--line-2); }
+  .datewrap {
+    flex: 1 1 auto; min-width: 0; position: relative;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 0.4375rem 0.75rem;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .datewrap b { font-size: 0.9375rem; font-weight: 600; }
+  .datewrap span { font-size: 0.75rem; color: var(--ink-3); }
+  .datewrap input {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    opacity: 0; border: 0; padding: 0; cursor: pointer;
+    font-family: inherit;
+  }
+  .today-btn {
+    flex: 0 0 auto; padding: 0 0.875rem; font-size: 0.8125rem; font-weight: 500;
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    color: var(--ink-2);
+  }
+  .today-btn[hidden] { display: none; }
+
+  .blind {
+    position: relative; overflow: hidden;
+    background: var(--blind-bg); border-radius: var(--radius);
+    padding: 1.125rem 1.25rem 1.25rem;
+    display: flex; flex-direction: column; gap: 0.375rem;
+  }
+  .blind::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(circle at center, rgba(0,0,0,0.34) 0.9px, transparent 1.1px);
+    background-size: 3px 3px; opacity: 0.6;
+  }
+  .blind-label {
+    font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--blind-led-dim); font-weight: 600;
+  }
+  .blind-time {
+    font-size: 3.25rem; line-height: 1; font-weight: 600;
+    color: var(--blind-led); letter-spacing: 0.01em;
+  }
+  .blind-count { font-size: 1.0625rem; color: var(--blind-led); font-weight: 500; }
+  .blind-meta { font-size: 0.8125rem; color: var(--blind-led-dim); }
+  .blind-empty { font-size: 1.25rem; color: var(--blind-led); font-weight: 500; line-height: 1.35; }
+
+  .board { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .board-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 0.75rem 1rem; border-bottom: 1px solid var(--line);
+  }
+  .board-head b { font-size: 0.875rem; font-weight: 600; }
+  .board-head span { font-size: 0.75rem; color: var(--ink-3); }
+  .trip {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.75rem 1rem; border-bottom: 1px solid var(--line);
+  }
+  .trip:last-child { border-bottom: 0; }
+  .trip-times { flex: 0 0 auto; display: flex; align-items: baseline; gap: 0.375rem; font-size: 1.0625rem; font-weight: 600; }
+  .trip-times i { font-style: normal; color: var(--ink-3); font-weight: 400; font-size: 0.875rem; }
+  .trip-times u { text-decoration: none; color: var(--ink-2); font-weight: 500; }
+  .trip-info { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
+  .trip-info b { font-size: 0.8125rem; font-weight: 400; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .trip-info span { font-size: 0.6875rem; color: var(--ink-3); }
+  .trip-tag {
+    flex: 0 0 auto; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em;
+    padding: 0.1875rem 0.4375rem; border-radius: 6px; text-transform: uppercase;
+  }
+  .trip.is-next { background: var(--tint); }
+  .trip.is-next .trip-tag { background: var(--accent); color: var(--surface); }
+  .trip.is-past { opacity: 0.42; }
+
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .panel h2 { font-size: 0.9375rem; font-weight: 600; }
+  .panel p { font-size: 0.8125rem; color: var(--ink-2); }
+  .panel label { font-size: 0.75rem; font-weight: 600; color: var(--ink-2); display: block; margin-bottom: 0.3125rem; }
+  .panel textarea {
+    width: 100%; box-sizing: border-box; min-height: 11rem; resize: vertical;
+    background: var(--surface-2); color: var(--ink);
+    border: 1px solid var(--line); border-radius: 8px; padding: 0.625rem;
+    font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.8125rem; line-height: 1.7;
+  }
+  .panel-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+  .steps { margin: 0; padding-left: 1.125rem; font-size: 0.8125rem; color: var(--ink-2); }
+  .steps li { margin-bottom: 0.25rem; }
+  .steps a { color: var(--accent); }
+  .panel hr { border: 0; border-top: 1px solid var(--line); margin: 0.25rem 0; }
+  .panel h3 { font-size: 0.8125rem; font-weight: 600; color: var(--ink-2); }
+  .btn-link { display: inline-block; text-decoration: none; }
+  #ta-paste { min-height: 7rem; }
+  .btn { padding: 0.5rem 0.875rem; font-size: 0.8125rem; font-weight: 500; border-radius: 8px; border: 1px solid var(--line-2); background: var(--surface-2); }
+  .btn-primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .note { font-size: 0.75rem; color: var(--ink-3); }
+  .note.is-good { color: var(--good); }
+  .disclosure {
+    width: 100%; text-align: left; background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 0.75rem 1rem; font-size: 0.8125rem; font-weight: 500; color: var(--ink-2);
+    display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;
+  }
+  .colophon { font-size: 0.75rem; color: var(--ink-3); display: flex; flex-direction: column; gap: 0.375rem; padding: 0 0.25rem; }
+  .colophon a { color: var(--accent); }
+
+  .dedication {
+    display: flex; align-items: center; justify-content: center; gap: 0.4375rem;
+    margin-top: 0.375rem; padding-top: 1rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.8125rem; color: var(--ink-2); text-align: center;
+  }
+  .heart { display: inline-block; color: var(--heart); font-size: 1rem; line-height: 1; }
+  @media (prefers-reduced-motion: no-preference) {
+    .heart { animation: beat 2.6s ease-in-out infinite; }
+  }
+  @keyframes beat {
+    0%, 62%, 100% { transform: scale(1); }
+    10% { transform: scale(1.22); }
+    22% { transform: scale(1); }
+    32% { transform: scale(1.14); }
+  }
+  [hidden] { display: none !important; }
+  @media (prefers-reduced-motion: no-preference) {
+    .trip.is-next .trip-tag { transition: background 0.2s ease; }
+  }
+</style>
+
+<div class="shell">
+  <header class="masthead">
+    <span class="route-badge mono">460</span>
+    <span class="masthead-text">
+      <b>Котельники ⇄ Коломна</b>
+      <span>МАП2 Коломна · ежедневно</span>
+    </span>
+  </header>
+
+  <div class="segmented" role="group" aria-label="Направление">
+    <button class="seg" id="dir-out" aria-pressed="true">м. Котельники → Коломна</button>
+    <button class="seg" id="dir-in" aria-pressed="false">Коломна → м. Котельники</button>
+  </div>
+
+  <div class="datebar">
+    <button class="daynav" id="prev-day" aria-label="Предыдущий день">‹</button>
+    <div class="datewrap">
+      <b id="date-label">—</b>
+      <span id="date-sub">—</span>
+      <input type="date" id="date-input" aria-label="Выбрать дату" />
+    </div>
+    <button class="daynav" id="next-day" aria-label="Следующий день">›</button>
+    <button class="today-btn" id="today-btn" hidden>Сегодня</button>
+  </div>
+
+  <section class="blind" id="blind" aria-live="polite"></section>
+
+  <section class="board">
+    <div class="board-head">
+      <b id="board-title">Все рейсы</b>
+      <span id="board-count">—</span>
+    </div>
+    <div id="trips"></div>
+  </section>
+
+  <button class="disclosure" id="toggle-editor" aria-expanded="false" aria-controls="editor">
+    <span>Обновить расписание</span>
+    <span aria-hidden="true">＋</span>
+  </button>
+
+  <section class="panel" id="editor" hidden>
+    <h2>Обновить с bus.tutu.ru</h2>
+    <p>Само зайти на сайт приложение не может — браузер запрещает странице читать чужие сайты. Но разобрать страницу, которую вы скопируете, оно умеет.</p>
+    <ol class="steps">
+      <li>Откройте <a id="source-link" href="https://bus.tutu.ru/raspisanie/gorod_Kotelniki/gorod_Kolomna/">расписание нужного направления</a> в соседней вкладке.</li>
+      <li>Выделите страницу целиком и скопируйте.</li>
+      <li>Вставьте сюда и нажмите «Разобрать» — приложение выберет рейсы 460-го само.</li>
+    </ol>
+    <textarea id="ta-paste" spellcheck="false" placeholder="Вставьте сюда скопированную страницу"></textarea>
+    <div class="panel-actions">
+      <button class="btn btn-primary" id="parse-btn">Разобрать</button>
+      <span class="note" id="parse-note"></span>
+    </div>
+
+    <hr />
+
+    <h3 id="manual-heading">Или впишите времена сами</h3>
+    <p>Одна строка — один рейс: время отправления, время прибытия и остановка в Коломне через пробел. Сохраняется на этом устройстве и переживает перезагрузку.</p>
+    <div>
+      <label for="ta-out">м. Котельники → Коломна</label>
+      <textarea id="ta-out" spellcheck="false"></textarea>
+    </div>
+    <div>
+      <label for="ta-in">Коломна → м. Котельники</label>
+      <textarea id="ta-in" spellcheck="false"></textarea>
+    </div>
+    <div class="panel-actions">
+      <button class="btn btn-primary" id="save-btn">Сохранить</button>
+      <button class="btn" id="reset-btn">Вернуть встроенное</button>
+    </div>
+    <p class="note" id="editor-note"></p>
+  </section>
+
+  <div class="colophon">
+    <span id="source-line">Встроенное расписание перевозчика от 28.01.2026 · источник bus.tutu.ru</span>
+    <span>Расписание может меняться — перед важной поездкой сверьтесь с <a href="https://bus.tutu.ru/raspisanie/gorod_Kotelniki/gorod_Kolomna/">bus.tutu.ru</a>.</span>
+    <span>Чтобы поставить на домашний экран: «Поделиться» → «На экран «Домой»».</span>
+  </div>
+
+  <p class="dedication">Специально для моей любимой кошки <span class="heart" aria-hidden="true">♥</span></p>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var BUILTIN = {
+    version: "28.01.2026",
+    out: [
+      ["06:55", "08:35", "Автовокзал Коломна"],
+      ["08:15", "09:55", "Автовокзал Коломна"],
+      ["10:15", "11:55", "Автовокзал Коломна"],
+      ["11:15", "12:55", "Автовокзал Коломна"],
+      ["12:35", "14:15", "Автовокзал Коломна"],
+      ["14:05", "15:45", "Автовокзал Коломна"],
+      ["15:35", "17:15", "Автовокзал Коломна"],
+      ["17:00", "18:40", "Автовокзал Коломна"],
+      ["19:05", "21:05", "ул. Спирина (Колычёво)"],
+      ["21:35", "23:35", "ул. Спирина (Колычёво)"]
+    ],
+    "in": [
+      ["04:00", "06:00", "ул. Спирина (Колычёво)"],
+      ["04:30", "06:30", "ул. Спирина (Колычёво)"],
+      ["06:30", "08:10", "Автовокзал Коломна"],
+      ["08:30", "10:10", "Автовокзал Коломна"],
+      ["09:45", "11:25", "Автовокзал Коломна"],
+      ["11:00", "12:40", "Автовокзал Коломна"],
+      ["12:30", "14:10", "Автовокзал Коломна"],
+      ["13:30", "15:10", "Автовокзал Коломна"],
+      ["16:00", "17:40", "Автовокзал Коломна"],
+      ["19:10", "20:50", "Автовокзал Коломна"]
+    ]
+  };
+
+  var STORE_KEY = "bus460.schedule.v1";
+  var MONTHS = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
+  var WEEKDAYS = ["воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"];
+
+  var schedule = load();
+  var direction = "out";
+  var selected = startOfDay(new Date());
+  var ticker = null;
+
+  var el = {
+    dirOut: document.getElementById("dir-out"),
+    dirIn: document.getElementById("dir-in"),
+    prevDay: document.getElementById("prev-day"),
+    nextDay: document.getElementById("next-day"),
+    todayBtn: document.getElementById("today-btn"),
+    dateInput: document.getElementById("date-input"),
+    dateLabel: document.getElementById("date-label"),
+    dateSub: document.getElementById("date-sub"),
+    blind: document.getElementById("blind"),
+    trips: document.getElementById("trips"),
+    boardTitle: document.getElementById("board-title"),
+    boardCount: document.getElementById("board-count"),
+    toggleEditor: document.getElementById("toggle-editor"),
+    editor: document.getElementById("editor"),
+    taOut: document.getElementById("ta-out"),
+    taIn: document.getElementById("ta-in"),
+    saveBtn: document.getElementById("save-btn"),
+    resetBtn: document.getElementById("reset-btn"),
+    editorNote: document.getElementById("editor-note"),
+    sourceLine: document.getElementById("source-line"),
+    taPaste: document.getElementById("ta-paste"),
+    parseBtn: document.getElementById("parse-btn"),
+    parseNote: document.getElementById("parse-note"),
+    sourceLink: document.getElementById("source-link")
+  };
+
+  var SOURCE_URL = {
+    out: "https://bus.tutu.ru/raspisanie/gorod_Kotelniki/gorod_Kolomna/",
+    "in": "https://bus.tutu.ru/raspisanie/gorod_Kolomna/gorod_Kotelniki/"
+  };
+
+  function startOfDay(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+  function sameDay(a, b) { return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate(); }
+  function addDays(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
+  function pad(n) { return n < 10 ? "0" + n : String(n); }
+  function isoDate(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+  function toMin(hhmm) { var p = hhmm.split(":"); return parseInt(p[0], 10) * 60 + parseInt(p[1], 10); }
+
+  function plural(n, one, few, many) {
+    var mod100 = n % 100;
+    if (mod100 >= 11 && mod100 <= 14) { return many; }
+    var mod10 = n % 10;
+    if (mod10 === 1) { return one; }
+    if (mod10 >= 2 && mod10 <= 4) { return few; }
+    return many;
+  }
+
+  function fmtSpan(mins) {
+    var h = Math.floor(mins / 60), m = mins % 60;
+    if (h && m) { return h + " ч " + m + " мин"; }
+    if (h) { return h + " ч"; }
+    return m + " мин";
+  }
+
+  function load() {
+    try {
+      var raw = window.localStorage.getItem(STORE_KEY);
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        if (parsed && parsed.out && parsed["in"] && parsed.out.length && parsed["in"].length) { return parsed; }
+      }
+    } catch (e) { /* storage unavailable — fall through to built-in */ }
+    return { version: BUILTIN.version, custom: false, out: BUILTIN.out, "in": BUILTIN["in"] };
+  }
+
+  function persist(next) {
+    try {
+      window.localStorage.setItem(STORE_KEY, JSON.stringify(next));
+      return true;
+    } catch (e) { return false; }
+  }
+
+  function serialize(list) {
+    return list.map(function (t) { return t[0] + " " + t[1] + " " + t[2]; }).join("\n");
+  }
+
+  function parseList(text) {
+    var out = [];
+    var lines = text.split("\n");
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i].trim();
+      if (!line) { continue; }
+      var m = line.match(/^(\d{1,2}:\d{2})\s+(\d{1,2}:\d{2})\s*(.*)$/);
+      if (!m) { return { error: "Строка " + (i + 1) + " не разобрана: «" + line + "»" }; }
+      var dep = m[1], arr = m[2];
+      if (toMin(dep) > 1439 || toMin(arr) > 1439) { return { error: "Строка " + (i + 1) + ": время вне суток" }; }
+      out.push([dep.length === 4 ? "0" + dep : dep, arr.length === 4 ? "0" + arr : arr, m[3].trim() || "—"]);
+    }
+    if (!out.length) { return { error: "Нужен хотя бы один рейс" }; }
+    out.sort(function (a, b) { return toMin(a[0]) - toMin(b[0]); });
+    return { list: out };
+  }
+
+  function padTime(t) {
+    var p = t.split(":");
+    return (p[0].length === 1 ? "0" + p[0] : p[0]) + ":" + p[1];
+  }
+
+  function parseTutu(text) {
+    var raw = text.split("\n");
+    var lines = [];
+    for (var i = 0; i < raw.length; i++) {
+      var s = raw[i].replace(/ /g, " ").replace(/^\s+|\s+$/g, "");
+      if (s) { lines.push(s); }
+    }
+
+    var timeRe = /^\d{1,2}:\d{2}$/;
+    var sepRe = /^(.*?)\s[–—-]\s([\s\S]+)$/;
+    var ROUTE = "460";
+    var found = [];
+    var seen = {};
+
+    for (var j = 0; j + 1 < lines.length; j++) {
+      if (!timeRe.test(lines[j]) || !timeRe.test(lines[j + 1])) { continue; }
+
+      var isTarget = false;
+      var inlineRest = "";
+      var limit = Math.min(j + 10, lines.length);
+
+      for (var k = j + 2; k < limit; k++) {
+        var L = lines[k];
+        if (timeRe.test(L)) { break; }
+        var tagged = L.match(/^№\s*(\d{1,4})\s*([\s\S]*)$/);
+        if (tagged) {
+          if (tagged[1] === ROUTE) { isTarget = true; inlineRest = tagged[2]; }
+          break;
+        }
+        if (/^\d{1,4}$/.test(L)) {
+          if (L === ROUTE) { isTarget = true; }
+          break;
+        }
+      }
+      if (!isTarget) { continue; }
+
+      var pair = "";
+      if (inlineRest && sepRe.test(inlineRest)) {
+        pair = inlineRest;
+      } else {
+        var far = Math.min(j + 16, lines.length);
+        for (var p = j + 2; p < far; p++) {
+          if (timeRe.test(lines[p])) { break; }
+          if (sepRe.test(lines[p])) { pair = lines[p]; break; }
+        }
+      }
+
+      var point = "";
+      if (pair) {
+        var ends = pair.match(sepRe);
+        var left = ends[1].replace(/^\s+|\s+$/g, "");
+        var right = ends[2].replace(/^\s+|\s+$/g, "");
+        point = left.indexOf("Котельники") >= 0 ? right : left;
+      }
+
+      var dep = padTime(lines[j]);
+      if (seen[dep]) { continue; }
+      seen[dep] = true;
+      found.push([dep, padTime(lines[j + 1]), point || "—"]);
+    }
+
+    if (!found.length) {
+      return { error: "Рейсы 460-го не найдены. Убедитесь, что скопировали страницу расписания целиком." };
+    }
+    found.sort(function (a, b) { return toMin(a[0]) - toMin(b[0]); });
+    return { list: found };
+  }
+  function trips() { return schedule[direction === "out" ? "out" : "in"]; }
+  function pointLabel() { return direction === "out" ? "Прибытие в Коломне" : "Отправление в Коломне"; }
+
+  function renderDate() {
+    var today = startOfDay(new Date());
+    var isToday = sameDay(selected, today);
+    var isTomorrow = sameDay(selected, addDays(today, 1));
+    el.dateLabel.textContent = selected.getDate() + " " + MONTHS[selected.getMonth()] + " " + selected.getFullYear();
+    var wd = WEEKDAYS[selected.getDay()];
+    el.dateSub.textContent = isToday ? "сегодня · " + wd : (isTomorrow ? "завтра · " + wd : wd);
+    el.dateInput.value = isoDate(selected);
+    el.todayBtn.hidden = isToday;
+  }
+
+  function blindLine(cls, text) {
+    var s = document.createElement("span");
+    s.className = cls;
+    s.textContent = text;
+    return s;
+  }
+
+  function paintBlind(lines) {
+    var frag = document.createDocumentFragment();
+    for (var i = 0; i < lines.length; i++) {
+      frag.appendChild(blindLine(lines[i][0], lines[i][1]));
+    }
+    el.blind.replaceChildren(frag);
+  }
+
+  function renderBlind() {
+    var list = trips();
+    var now = new Date();
+    var isToday = sameDay(selected, startOfDay(now));
+
+    if (!isToday) {
+      var first = list[0];
+      paintBlind([
+        ["blind-label", "Первый рейс"],
+        ["blind-time mono", first[0]],
+        ["blind-meta", "прибытие " + first[1] + " · " + fmtSpan(spanOf(first))],
+        ["blind-meta", pointLabel().toLowerCase() + ": " + first[2]]
+      ]);
+      return;
+    }
+
+    var nowMin = now.getHours() * 60 + now.getMinutes();
+    var next = null;
+    for (var i = 0; i < list.length; i++) {
+      if (toMin(list[i][0]) > nowMin) { next = list[i]; break; }
+    }
+
+    if (!next) {
+      var tomorrowFirst = list[0];
+      paintBlind([
+        ["blind-label", "Сегодня рейсов больше нет"],
+        ["blind-empty", "Завтра в " + tomorrowFirst[0]],
+        ["blind-meta", "прибытие " + tomorrowFirst[1] + " · " + fmtSpan(spanOf(tomorrowFirst))]
+      ]);
+      return;
+    }
+
+    var left = toMin(next[0]) - nowMin;
+    paintBlind([
+      ["blind-label", "Следующий рейс"],
+      ["blind-time mono", next[0]],
+      ["blind-count", left <= 0 ? "отправляется" : "через " + fmtSpan(left)],
+      ["blind-meta", "прибытие " + next[1] + " · " + fmtSpan(spanOf(next))],
+      ["blind-meta", pointLabel().toLowerCase() + ": " + next[2]]
+    ]);
+  }
+
+  function spanOf(t) {
+    var d = toMin(t[1]) - toMin(t[0]);
+    return d < 0 ? d + 1440 : d;
+  }
+
+  function renderTrips() {
+    var list = trips();
+    var now = new Date();
+    var isToday = sameDay(selected, startOfDay(now));
+    var nowMin = now.getHours() * 60 + now.getMinutes();
+    var nextIndex = -1;
+    if (isToday) {
+      for (var i = 0; i < list.length; i++) {
+        if (toMin(list[i][0]) > nowMin) { nextIndex = i; break; }
+      }
+    }
+
+    var frag = document.createDocumentFragment();
+    for (var j = 0; j < list.length; j++) {
+      var t = list[j];
+      var row = document.createElement("div");
+      row.className = "trip";
+      if (isToday && j < (nextIndex === -1 ? list.length : nextIndex)) { row.className += " is-past"; }
+      if (j === nextIndex) { row.className += " is-next"; }
+
+      var times = document.createElement("span");
+      times.className = "trip-times mono";
+      times.innerHTML = t[0] + '<i>→</i><u>' + t[1] + "</u>";
+
+      var info = document.createElement("span");
+      info.className = "trip-info";
+      var b = document.createElement("b");
+      b.textContent = t[2];
+      var s = document.createElement("span");
+      s.textContent = fmtSpan(spanOf(t)) + " в пути";
+      info.appendChild(b);
+      info.appendChild(s);
+
+      row.appendChild(times);
+      row.appendChild(info);
+
+      if (j === nextIndex) {
+        var tag = document.createElement("span");
+        tag.className = "trip-tag";
+        tag.textContent = "следующий";
+        row.appendChild(tag);
+      }
+      frag.appendChild(row);
+    }
+    el.trips.replaceChildren(frag);
+    el.boardTitle.textContent = direction === "out" ? "Отправление от м. Котельники" : "Отправление из Коломны";
+    el.boardCount.textContent = list.length + " " + plural(list.length, "рейс", "рейса", "рейсов");
+  }
+
+  function render() {
+    renderDate();
+    renderBlind();
+    renderTrips();
+    el.sourceLine.textContent = schedule.custom
+      ? "Ваше расписание, сохранено на этом устройстве"
+      : "Встроенное расписание перевозчика от " + schedule.version + " · источник bus.tutu.ru";
+    el.sourceLink.setAttribute("href", SOURCE_URL[direction === "out" ? "out" : "in"]);
+  }
+
+  function setDirection(next) {
+    direction = next;
+    el.dirOut.setAttribute("aria-pressed", String(next === "out"));
+    el.dirIn.setAttribute("aria-pressed", String(next === "in"));
+    render();
+  }
+
+  el.dirOut.addEventListener("click", function () { setDirection("out"); });
+  el.dirIn.addEventListener("click", function () { setDirection("in"); });
+  el.prevDay.addEventListener("click", function () { selected = addDays(selected, -1); render(); });
+  el.nextDay.addEventListener("click", function () { selected = addDays(selected, 1); render(); });
+  el.todayBtn.addEventListener("click", function () { selected = startOfDay(new Date()); render(); });
+  el.dateInput.addEventListener("change", function () {
+    var v = el.dateInput.value;
+    if (!v) { return; }
+    var p = v.split("-");
+    selected = new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10));
+    render();
+  });
+
+  el.toggleEditor.addEventListener("click", function () {
+    var open = el.editor.hidden;
+    el.editor.hidden = !open;
+    el.toggleEditor.setAttribute("aria-expanded", String(open));
+    el.toggleEditor.lastElementChild.textContent = open ? "−" : "＋";
+    if (open) {
+      el.taOut.value = serialize(schedule.out);
+      el.taIn.value = serialize(schedule["in"]);
+      el.editorNote.textContent = "";
+      el.editorNote.className = "note";
+      el.parseNote.textContent = "";
+      el.parseNote.className = "note";
+    }
+  });
+
+  el.parseBtn.addEventListener("click", function () {
+    var text = el.taPaste.value;
+    if (!text || !text.replace(/^\s+|\s+$/g, "")) {
+      el.parseNote.className = "note";
+      el.parseNote.textContent = "Сначала вставьте скопированную страницу.";
+      return;
+    }
+    var res = parseTutu(text);
+    if (res.error) {
+      el.parseNote.className = "note";
+      el.parseNote.textContent = res.error;
+      return;
+    }
+    var target = direction === "out" ? el.taOut : el.taIn;
+    target.value = serialize(res.list);
+    var dirName = direction === "out" ? "Котельники → Коломна" : "Коломна → Котельники";
+    el.parseNote.className = "note is-good";
+    el.parseNote.textContent = "Найдено " + res.list.length + " " +
+      plural(res.list.length, "рейс", "рейса", "рейсов") + " для «" + dirName +
+      "». Проверьте список ниже и нажмите «Сохранить».";
+    el.editorNote.textContent = "";
+    el.editorNote.className = "note";
+  });
+
+  el.saveBtn.addEventListener("click", function () {
+    var a = parseList(el.taOut.value);
+    if (a.error) { el.editorNote.className = "note"; el.editorNote.textContent = "Котельники → Коломна: " + a.error; return; }
+    var b = parseList(el.taIn.value);
+    if (b.error) { el.editorNote.className = "note"; el.editorNote.textContent = "Коломна → Котельники: " + b.error; return; }
+    schedule = { version: schedule.version, custom: true, out: a.list, "in": b.list };
+    var ok = persist(schedule);
+    el.editorNote.className = ok ? "note is-good" : "note";
+    el.editorNote.textContent = ok
+      ? "Сохранено. Приложение теперь показывает ваше расписание."
+      : "Показано, но сохранить не удалось — браузер заблокировал хранилище, после перезагрузки вернётся встроенное.";
+    render();
+  });
+
+  el.resetBtn.addEventListener("click", function () {
+    schedule = { version: BUILTIN.version, custom: false, out: BUILTIN.out, "in": BUILTIN["in"] };
+    try { window.localStorage.removeItem(STORE_KEY); } catch (e) { /* nothing to clear */ }
+    el.taOut.value = serialize(schedule.out);
+    el.taIn.value = serialize(schedule["in"]);
+    el.editorNote.className = "note is-good";
+    el.editorNote.textContent = "Вернули встроенное расписание.";
+    render();
+  });
+
+  function tick() {
+    if (sameDay(selected, startOfDay(new Date()))) { renderBlind(); renderTrips(); }
+  }
+  ticker = window.setInterval(tick, 20000);
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) { render(); }
+  });
+
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("sw.js").catch(function () { /* offline cache is optional */ });
+    });
+  }
+
+  render();
+})();
+</script>
+
+</body>
+</html>
