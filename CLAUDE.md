@@ -28,6 +28,14 @@
 - `manifest.webmanifest` — `start_url` и `scope` = `./`, чтобы работало в подпапке `/bus460/`. Пути относительные — не ломать.
 - `icon-180.png`, `icon-192.png`, `icon-512.png` — номер 460 на тёмном фоне.
 
+### Рабочая копия на ПК владельца
+
+Папка `Downloads\Claude\bus460-site` (не git-клон). Сверено 26.11.2026: `index.html` и `sw.js` побайтово совпадают с репозиторием. Там же `.nojekyll` (в репозитории нет, сайт работает и без него) и `README.md`.
+
+**`README.md` устарел:** советует Yandex Cloud / Cloudflare / российский хостинг и отговаривает от GitHub Pages. Фактически выбран и работает GitHub Pages.
+
+Детали кода: `BUILTIN.version = "28.01.2026"`, строки рейсов `[отправление, прибытие, остановка]`, массивы `out` (из Котельников) и `in` (из Коломны). Пользовательское расписание — `localStorage`, ключ `bus460.schedule.v1`. В `index.html` стоит запрет индексации.
+
 ## Деплой
 
 GitHub Pages: Settings → Pages → Deploy from a branch → `main` → `/ (root)`. Файлы лежат прямо в корне (не в папке `bus460-site`). Владелец обычно загружает вручную: Add file → Upload files → те же имена → Commit changes.
