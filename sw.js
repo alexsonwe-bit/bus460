@@ -1,4 +1,4 @@
-var CACHE = "bus460-v4";
+var CACHE = "bus460-v5";
 var ASSETS = [
   "./",
   "./index.html",

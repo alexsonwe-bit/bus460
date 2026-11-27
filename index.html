@@ -37,6 +37,7 @@
     --tint: #E7EFF8;
     --good: #1E7A4C;
     --heart: #D9456E;
+    --snow: #9FB6CE;
     --blind-bg: #0A0D11;
     --blind-led: #FFB020;
     --blind-led-dim: #8A5F14;
@@ -57,6 +58,7 @@
       --tint: #1B2A3A;
       --good: #5DBE8C;
       --heart: #F07A9B;
+      --snow: #DCE6F1;
     }
   }
   :root[data-theme="dark"] {
@@ -72,6 +74,7 @@
     --tint: #1B2A3A;
     --good: #5DBE8C;
     --heart: #F07A9B;
+    --snow: #DCE6F1;
   }
   :root[data-theme="light"] {
     --paper: #EDF0F3;
@@ -86,6 +89,7 @@
     --tint: #E7EFF8;
     --good: #1E7A4C;
     --heart: #D9456E;
+    --snow: #9FB6CE;
   }
 
   body {
@@ -256,13 +260,93 @@
     22% { transform: scale(1); }
     32% { transform: scale(1.14); }
   }
+  .snow {
+    position: fixed; inset: 0; z-index: 5;
+    pointer-events: none; overflow: hidden;
+  }
+  .flake {
+    position: absolute; top: 0; left: var(--x);
+    color: var(--snow); font-size: var(--s); line-height: 1;
+    opacity: var(--o);
+    transform: translate3d(0, -2rem, 0);
+    animation: snowfall var(--d) linear var(--delay) infinite;
+    will-change: transform;
+  }
+  @keyframes snowfall {
+    from { transform: translate3d(0, -2rem, 0) rotate(0deg); }
+    to { transform: translate3d(var(--drift), 105vh, 0) rotate(var(--r)); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .snow { display: none; }
+  }
+
+  .garland { display: flex; height: 1.75rem; margin: -0.25rem -0.25rem -0.5rem; }
+  .g-slot {
+    flex: 1 1 0; position: relative; height: 0.625rem;
+    border-bottom: 1.5px solid var(--ink-3);
+    border-radius: 0 0 50% 50% / 0 0 100% 100%;
+  }
+  .g-bulb {
+    position: absolute; left: 50%; top: 100%;
+    width: 0.5rem; height: 0.75rem; margin-left: -0.25rem; margin-top: 1px;
+    border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+    background: var(--c);
+    box-shadow: 0 0 6px 1px var(--c);
+  }
+  .g-bulb::before {
+    content: ""; position: absolute; top: -3px; left: 1px; right: 1px; height: 4px;
+    background: var(--ink-3); border-radius: 1px;
+  }
+  .g-slot:nth-child(4n+1) .g-bulb { --c: #FF4D5E; }
+  .g-slot:nth-child(4n+2) .g-bulb { --c: #FFB020; }
+  .g-slot:nth-child(4n+3) .g-bulb { --c: #3DDC84; }
+  .g-slot:nth-child(4n+4) .g-bulb { --c: #4DA3FF; }
+  @media (prefers-reduced-motion: no-preference) {
+    .g-bulb { animation: twinkle 2.4s ease-in-out infinite; }
+    .g-slot:nth-child(3n+2) .g-bulb { animation-delay: -0.8s; }
+    .g-slot:nth-child(3n+3) .g-bulb { animation-delay: -1.6s; }
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 1; box-shadow: 0 0 7px 2px var(--c); }
+    50% { opacity: 0.35; box-shadow: 0 0 0 0 transparent; }
+  }
   [hidden] { display: none !important; }
   @media (prefers-reduced-motion: no-preference) {
     .trip.is-next .trip-tag { transition: background 0.2s ease; }
   }
 </style>
 
+<div class="snow" id="snow" aria-hidden="true"></div>
+<script>
+(function () {
+  "use strict";
+  var layer = document.getElementById("snow");
+  if (!layer || (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
+  var glyphs = ["❅", "❆", "•", "•"];
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+  for (var i = 0; i < 26; i++) {
+    var f = document.createElement("span");
+    var dur = rnd(9, 18);
+    f.className = "flake";
+    f.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+    f.style.setProperty("--x", rnd(0, 100).toFixed(1) + "%");
+    f.style.setProperty("--s", rnd(0.45, 1.05).toFixed(2) + "rem");
+    f.style.setProperty("--o", rnd(0.45, 0.9).toFixed(2));
+    f.style.setProperty("--d", dur.toFixed(1) + "s");
+    f.style.setProperty("--delay", (-rnd(0, dur)).toFixed(1) + "s");
+    f.style.setProperty("--drift", rnd(-3, 3).toFixed(1) + "rem");
+    f.style.setProperty("--r", Math.round(rnd(-180, 180)) + "deg");
+    layer.appendChild(f);
+  }
+})();
+</script>
+
 <div class="shell">
+  <div class="garland" aria-hidden="true">
+    <span class="g-slot"><i class="g-bulb"></i></span><span class="g-slot"><i class="g-bulb"></i></span><span class="g-slot"><i class="g-bulb"></i></span><span class="g-slot"><i class="g-bulb"></i></span>
+    <span class="g-slot"><i class="g-bulb"></i></span><span class="g-slot"><i class="g-bulb"></i></span><span class="g-slot"><i class="g-bulb"></i></span><span class="g-slot"><i class="g-bulb"></i></span>
+    <span class="g-slot"><i class="g-bulb"></i></span><span class="g-slot"><i class="g-bulb"></i></span><span class="g-slot"><i class="g-bulb"></i></span><span class="g-slot"><i class="g-bulb"></i></span>
+  </div>
   <header class="masthead">
     <span class="route-badge mono">460</span>
     <span class="masthead-text">
